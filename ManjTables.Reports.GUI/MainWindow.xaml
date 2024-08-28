@@ -1,0 +1,112 @@
+﻿<Window x:Class="ManjTables.Reports.GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ManjTables.Reports.GUI"
+        mc:Ignorable="d"
+        Title="Manj Reports" Height="450" Width="450"
+        Background="White">
+
+    <Window.Resources>
+        <Style TargetType="GroupBox">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#6c191c"/>
+            <Setter Property="Foreground" Value="#6c191c"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#6c191c"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#6c191c"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+        <DataTemplate x:Key="GroupBoxHeaderTemplate">
+            <TextBlock Text="{Binding}" FontSize="18" Foreground="#6c191c" FontWeight="Bold"/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+
+
+        <Grid Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <GroupBox Header="Files" HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="cbAllFiles"           Content="All Files"                 Checked="OnCheckedAllFiles" Unchecked="OnUncheckedAllFiles"
+                              ToolTip="Generate each file for the selected classroom(s)"/>
+                        <CheckBox x:Name="cbAllergies"          Content="Allergies and Permissions" Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Allergies, and permission statuses for photos and animal interaction"/>
+                        <CheckBox x:Name="cbEmergency"          Content="Emergency Contacts"        Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Parent and emergency contact information"/>
+                        <CheckBox x:Name="cbApprovedPickups"             Content="Authorized Pickups"        Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="People authorized to pickup children"/>
+                        <CheckBox x:Name="cbAges"               Content="Age by Date"               Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Birthdates, and ages of students at the selected date"/>
+                        <CheckBox x:Name="cbEnrollment"         Content="Enrollment List"           Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Dismissal times, program names, and instructor names, for all students"/>
+                        <CheckBox x:Name="cbParentDirFile"      Content="Parent Directory"          Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Parent addresses, emails, and phone numbers"/>
+                        <CheckBox x:Name="cbMailingList"        Content="Mailing List"              Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Mailing list in csv format for label printing"/>
+                        <CheckBox x:Name="cbEcpDismissal"       Content="ECP Dismissal"             Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Pickup times for ECP students"/>
+                        <CheckBox x:Name="cbStudentZipCodes"    Content="Student ZipCodes"          Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Grouped zip codes of all students, with totals"/>
+                        <CheckBox x:Name="cbGoingOutPermission" Content="Going Out Permission"      Checked="OnCheckedFile"     Unchecked="OnUncheckedFile"
+                              ToolTip="Permissions for students to go out"/>
+
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <GroupBox Header="Classrooms" HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}" VerticalAlignment="Bottom">
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox x:Name="cbAllClassrooms"  Content="All Classrooms"            Checked="OnCheckedAllClassrooms"    Unchecked="OnUncheckedAllClassrooms"
+                              ToolTip="Generate for each classroom"/>
+                        <CheckBox x:Name="cbClassroomA"     Content="Classroom A"               Checked="OnCheckedClassroom"        Unchecked="OnUncheckedClassroom"/>
+                        <CheckBox x:Name="cbClassroomB"     Content="Classroom B"               Checked="OnCheckedClassroom"        Unchecked="OnUncheckedClassroom"/>
+                        <CheckBox x:Name="cbClassroomC"     Content="Classroom C"               Checked="OnCheckedClassroom"        Unchecked="OnUncheckedClassroom"/>
+                        <CheckBox x:Name="cbClassroomD"     Content="Classroom D"               Checked="OnCheckedClassroom"        Unchecked="OnUncheckedClassroom"/>
+                        <CheckBox x:Name="cbClassroomE"     Content="Classroom E"               Checked="OnCheckedClassroom"        Unchecked="OnUncheckedClassroom"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Column="1" Header="Select Date" HeaderTemplate="{StaticResource GroupBoxHeaderTemplate}" Height="Auto" VerticalAlignment="Top">
+                    <DatePicker x:Name="datePicker" 
+                            SelectedDate="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            BorderBrush="{x:Null}" Height="29" Margin="2,0,-2,0" VerticalAlignment="Bottom"
+                            ToolTip="Defaults to today's date"/>
+                </GroupBox>
+                <Button x:Name="btnBuildSelected" Content="Build Report(s)" Click="BtnBuildSelected_Click"
+                    ToolTip="Select any combination of Files and Classrooms, then click here"/>
+            </StackPanel>
+
+        </Grid>
+        <!-- Popup for Loading Status -->
+        <Popup x:Name="statusPopup" Placement="Center" IsOpen="False" AllowsTransparency="True">
+            <Border Background="White" Padding="10" CornerRadius="5" BorderBrush="Black" BorderThickness="2">
+                <StackPanel>
+                    <TextBlock x:Name="statusTextBlock" Text="Loading..." Foreground="Black" Margin="0,0,0,10"/>
+                    <ProgressBar x:Name="progressBar" Height="20" Width="200" IsIndeterminate="True" Visibility="Visible"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+    </Grid>
+</Window>

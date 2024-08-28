@@ -1,0 +1,22 @@
+# Ignore database files
+*.db
+
+# Ignore logs
+*.log
+
+# Ignore appsettings.json
+appsettings.json
+dbappsettings.json
+# Ignore sensitive config files
+*.config
+
+# Ignore compiled binaries
+bin/
+obj/
+
+# Ignore Visual Studio files
+*.user
+*.suo
+*.vscode/
+*.vs/
+/ManjTables/appsettings.Development.json
